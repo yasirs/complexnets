@@ -20,7 +20,7 @@ def numc(H):
     return len(comps)
 
 
-def rewire_once(H):
+def rewire_once(H, debug=False):
     N = H.number_of_edges()
     old_edges = H.edges()
     # 
@@ -39,6 +39,9 @@ def rewire_once(H):
     if (not H.has_edge(*enew1))and(not H.has_edge(*enew2)):
         H.add_edges_from([enew1, enew2])
         H.remove_edges_from([e1,e2])
+        if debug:
+            print "removed ", [e1,e2]
+            print "added ", [enew1, enew2]
 
 
     
