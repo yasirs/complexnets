@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+import copy
 
 def readBiogrid(filename):
     edges = []
@@ -44,6 +45,14 @@ def rewire_once(H, debug=False):
             print "added ", [enew1, enew2]
 
 
+def random_rewired(G):
+    Gcopy = copy.deepcopy(G)
+    # get number of edges
+    ne = Gcopy.number_of_edges()
+    for i in xrange(2*ne):
+        rewire_once(Gcopy)
+    return Gcopy
+    
     
     
     
