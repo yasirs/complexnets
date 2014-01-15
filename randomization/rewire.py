@@ -1,9 +1,10 @@
 import networkx as nx
 import random
+
 def readBiogrid(filename):
     edges = []
 
-    fi = open('BIOGRID-ORGANISM-Arabidopsis_thaliana-3.2.108.tab2.txt','r')
+    fi = open(filename,'r')
     for line in fi:
         if line[0]!='#':
             words = line.split('\t')
@@ -37,6 +38,9 @@ def rewire_once(H):
     # make sure they don't already exist
     if (not H.has_edge(*enew1))and(not H.has_edge(*enew2)):
         H.add_edges_from([enew1, enew2])
+        H.remove_edges_from([e1,e2])
+
+
     
     
     
