@@ -45,12 +45,15 @@ def rewire_once(H, debug=False):
             print "added ", [enew1, enew2]
 
 
-def random_rewired(G):
+def random_rewired(G, debug=False):
     Gcopy = copy.deepcopy(G)
     # get number of edges
     ne = Gcopy.number_of_edges()
     for i in xrange(2*ne):
         rewire_once(Gcopy)
+        if debug:
+            if (i%100)==0:
+                print "done %i rewires" %i
     return Gcopy
     
     
