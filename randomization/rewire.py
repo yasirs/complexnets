@@ -9,7 +9,8 @@ def readBiogrid(filename):
             words = line.split('\t')
             if words[12]=='physical':
                 edges.append( [words[0], words[1]] )
-    G = nx.from_edgelist(edges)
+    self_edges = G.selfloop_edges()
+    G = nx.from_edgelist(self_edges)
     return G
 
 def numc(H):
