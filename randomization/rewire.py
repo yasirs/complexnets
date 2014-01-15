@@ -9,8 +9,9 @@ def readBiogrid(filename):
             words = line.split('\t')
             if words[12]=='physical':
                 edges.append( [words[0], words[1]] )
+    G = nx.from_edgelist(edges)
     self_edges = G.selfloop_edges()
-    G = nx.from_edgelist(self_edges)
+    G.remove_edges_from(self_edges)
     return G
 
 def numc(H):
@@ -34,7 +35,8 @@ def rewire_once(H):
         enew1 = (e1[0], e2[0])
         enew2 = (e1[1], e2[1])
     # make sure they don't already exist
-    if (not G.has_edge(*enew1))and(not G.has_edge(*enew2)):
-        G.a
+    if (not H.has_edge(*enew1))and(not H.has_edge(*enew2)):
+        H.add_edges_from([enew1, enew2])
+    
     
     
