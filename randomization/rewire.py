@@ -10,7 +10,7 @@ def readBiogrid(filename):
         if line[0]!='#':
             words = line.split('\t')
             if words[12]=='physical':
-                edges.append( [words[0], words[1]] )
+                edges.append( [int(words[0]), int(words[1])] )
     G = nx.from_edgelist(edges)
     self_edges = G.selfloop_edges()
     G.remove_edges_from(self_edges)
@@ -55,7 +55,55 @@ def random_rewired(G, debug=False):
             if (i%100)==0:
                 print "done %i rewires" %i
     return Gcopy
-    
+
+def random_rewired_fast(G, debug=False):
+    def order_edge(ed):
+        if ed[0]>ed[1]:
+            return (ed[1],ed[0])
+        else:
+            return ed
+
+    ne = G.number_of_edges()
+    edge2ind = {}
+    ind2edge = {}
+    count=0
+    for edge in G.edges_iter():
+        edge2ind[edge] = count
+        ind2edge[count] = edge
+        count = count +1
+    for i in xrange(10*ne):
+        n1 = random.randint(0,ne-1)
+        n2 = random.randint(0,ne-1)
+        if n1==n2:
+            continue
+        e1 = ind2edge[n1]
+        e2 = ind2edge[n2]
+        if random.random()<.5:
+            en1 = order_edge((e1[0],e2[1]))
+            en2 = order_edge((e1[1],e2[0]))
+        else:
+            en1 = order_edge((e1[0], e2[0]))
+            en2 = order_edge((e1[1], e2[1]))
+        # check if new edges already exist
+        if (en1 not in edge2ind) and (en2 not in edge2ind):
+            # put the new edges in and remove the old edges
+            edge2ind.pop(e1)
+            edge2ind.pop(e2)
+            edge2ind[en1] = n1
+            edge2ind[en2] = n2
+            
+            ind2edge[n1] = en1
+            ind2edge[n2] = en2
+        else:
+            # we had to skip the move
+            if debug:
+                print "had to skip move"
+        if debug:
+            if (i%100)==0:
+                print "rewired %i times" %i
+    Grewired = nx.from_edgelist(edge2ind.keys())
+    return Grewired
+            
     
     
     
