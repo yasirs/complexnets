@@ -11,7 +11,7 @@ def readBiogrid(filename,node_indices=[1,2]):
         if line[0]!='#':
             words = line.split('\t')
             if words[12]=='physical':
-                edges.append( [int(words[node_indices[1]]), int(words[node_inices[2]])] )
+             edges.append( (words[node_indices[0]], words[node_indices[1]]) )
     G = nx.from_edgelist(edges)
     self_edges = G.selfloop_edges()
     G.remove_edges_from(self_edges)
