@@ -2,7 +2,8 @@ import networkx as nx
 import random
 import copy
 
-def readBiogrid(filename):
+def readBiogrid(filename,node_indices=[1,2]):
+    
     edges = []
 
     fi = open(filename,'r')
@@ -10,7 +11,7 @@ def readBiogrid(filename):
         if line[0]!='#':
             words = line.split('\t')
             if words[12]=='physical':
-                edges.append( [int(words[0]), int(words[1])] )
+                edges.append( [int(words[node_indices[1]]), int(words[node_inices[2]])] )
     G = nx.from_edgelist(edges)
     self_edges = G.selfloop_edges()
     G.remove_edges_from(self_edges)
