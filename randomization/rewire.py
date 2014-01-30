@@ -15,6 +15,7 @@ def readBiogrid(filename,node_indices=[1,2]):
     G = nx.from_edgelist(edges)
     self_edges = G.selfloop_edges()
     G.remove_edges_from(self_edges)
+    G.remove_nodes_from(nx.isolates(G)) # remove degree 0 nodes
     return G
 
 def numc(H):
