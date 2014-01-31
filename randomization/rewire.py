@@ -88,18 +88,23 @@ def random_rewired_fast(G, debug=False):
             en2 = order_edge((e1[1], e2[1]))
         # check if new edges already exist
         if (en1 not in edge2ind) and (en2 not in edge2ind):
-            # put the new edges in and remove the old edges
-            edge2ind.pop(e1)
-            edge2ind.pop(e2)
-            edge2ind[en1] = n1
-            edge2ind[en2] = n2
+	    # check whether we are putting in self loops
+            if (en1[0]!=en1[1])and(en2[0]!=en2[1]):
+                # put the new edges in and remove the old edges
+                edge2ind.pop(e1)
+                edge2ind.pop(e2)
+                edge2ind[en1] = n1
+                edge2ind[en2] = n2
             
-            ind2edge[n1] = en1
-            ind2edge[n2] = en2
+                ind2edge[n1] = en1
+                ind2edge[n2] = en2
+            else:
+                if debug:
+                    print "had to skip to avoid putting self edges"
         else:
             # we had to skip the move
             if debug:
-                print "had to skip move"
+                print "had to skip move because new edges already exist"
         if debug:
             if (i%100)==0:
                 print "rewired %i times" %i
